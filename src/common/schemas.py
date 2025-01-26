@@ -1,5 +1,5 @@
-from pydantic import BaseModel
+from src.common.base_model import CustomBaseModel
 
 
-class MessageResponse(BaseModel):
+class MessageResponse(CustomBaseModel):
     message: str
