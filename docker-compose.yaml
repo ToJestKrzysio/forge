@@ -5,6 +5,11 @@ services:
     env_file:
       - ./envs/postgres.env
     volumes:
-      - ./data/postgres/:/var/lib/postgresql/data
+#      - ./data/postgres/:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+
+volumes:
+  postgres_data:
