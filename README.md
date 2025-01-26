@@ -7,7 +7,17 @@ An application can consist of multiple modules following this pattern.
 Project
 ├── alembic/
 ├── src
-│   ├── module_1
+│   ├── common  # Globaly reusable files
+│   │   ├── __init__.py
+│   │   ├── config.py  # Global Configuration
+│   │   ├── constants.py
+│   │   ├── dependencies.py
+│   │   ├── exceptions.py
+│   │   ├── models.py  # db models
+│   │   ├── schemas.py  # pydantic models
+│   │   ├── services.py
+│   │   └── utils.py
+│   ├── module_1  # Some application
 │   │   ├── __init__.py
 │   │   ├── config.py  # local configuration
 │   │   ├── constants.py
@@ -18,12 +28,7 @@ Project
 │   │   ├── schemas.py  # pydantic models
 │   │   ├── services.py
 │   │   └── utils.py
-│   ├── config.py  # global configs
-│   ├── models.py  # global models (Can be converted into a module if required)
-│   ├── exceptions.py  # global exceptions  (Can be converted into a module if required)
-│   ├── pagination.py  # global module e.g. pagination
-│   ├── database.py  # db connection related stuff
-│   └── main.py
+│   └── main.py  # Application entrypoint
 ├── tests/
 │   └── module_1
 ├── requirements
