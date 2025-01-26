@@ -4,6 +4,7 @@ from src.common.schemas import MessageResponse
 
 router = APIRouter(prefix="/health")
 
+
 @router.get(
     "",
     tags=["healthcheck"],
@@ -12,5 +13,5 @@ router = APIRouter(prefix="/health")
     status_code=status.HTTP_200_OK,
     response_model=MessageResponse,
 )
-def get_health() -> MessageResponse:
+def get_health():
     return MessageResponse(message="OK")
