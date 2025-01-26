@@ -6,6 +6,8 @@ An application can consist of multiple modules following this pattern.
 ```
 Project
 ├── alembic/
+├── data/  # Mount location for docker volumes (for ease of direct access) 
+├── envs/  # Env variables for docker containers 
 ├── src
 │   ├── common  # Globaly reusable files
 │   │   ├── __init__.py

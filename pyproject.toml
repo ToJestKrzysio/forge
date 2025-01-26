@@ -8,6 +8,7 @@ dependencies = [
     "async-asgi-testclient~=1.4.11",
     "fastapi[standard]~=0.115.7",
     "pydantic-settings~=2.7.1",
+    "sqlalchemy~=2.0.37",
 ]
 
 [dependency-groups]
@@ -47,6 +48,7 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "data",
 ]
 
 line-length = 120
@@ -58,7 +60,7 @@ indent-width = 4
 # Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
 # Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
 # McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F"]
+select = ["E4", "E7", "E9", "F", "D210"]
 extend-select = ["E501", "FAST001", "FAST002"]
 ignore = []
 
