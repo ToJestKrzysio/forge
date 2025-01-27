@@ -5,6 +5,7 @@ description = "FastAPI project template"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "alembic~=1.14.1",
     "async-asgi-testclient~=1.4.11",
     "fastapi[standard]~=0.115.7",
     "psycopg2-binary>=2.9.10",
