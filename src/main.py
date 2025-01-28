@@ -2,7 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
+from src.admin import admin
 from src.common.config import GlobalSettings
+from src.common.database import get_engine
 from src.common.utils.validate_subclasses_mixin import ValidateSubclassesMixin
 
 from src.health.router import router as health_router
@@ -20,5 +22,8 @@ async def lifespan(_app: FastAPI):
 
 
 app = FastAPI(**app_config, lifespan=lifespan)
+
 app.include_router(health_router)
 app.include_router(hero_router)  # TODO REMOVE
+
+admin.build(app, get_engine())
