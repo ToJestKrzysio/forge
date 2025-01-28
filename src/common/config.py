@@ -25,8 +25,8 @@ class PostgresSettings(BaseSettings, ValidateSubclassesMixin):
     port: int = Field(validation_alias="POSTGRES_PORT", default=5432)  # TODO REMOVE DEFAULT AFTER DOCKER
     user: str = Field(validation_alias="POSTGRES_USER", default="postgres")  # TODO REMOVE DEFAULT AFTER DOCKER
     password: str = Field(validation_alias="POSTGRES_PASSWORD", default="Testpass123")  # TODO REMOVE DEFAULT
-    database: str = Field(validation_alias="POSTGRES_DATABASE", default="test")
+    database: str = Field(validation_alias="POSTGRES_DATABASE", default="default")
 
     @property
     def connection_string(self):
-        return f"postgresql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+        return f"postgresql+asyncpg://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"

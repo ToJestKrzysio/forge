@@ -8,3 +8,6 @@ class Hero(Base):  # TODO REMOVE FILE
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column()
+
+    def __repr__(self) -> str:
+        return f"{self.id} - {self.name}"

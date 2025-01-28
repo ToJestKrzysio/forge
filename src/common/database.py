@@ -1,5 +1,8 @@
-from sqlalchemy import create_engine, MetaData
+from fastapi import Depends
+from sqlalchemy import MetaData
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
+from typing import Annotated
 
 from src.common.config import PostgresSettings, GlobalSettings
 
@@ -11,7 +14,17 @@ class Base(DeclarativeBase):
 def get_engine():
     postgres_settings = PostgresSettings()
     global_settings = GlobalSettings()
-    return create_engine(postgres_settings.connection_string, echo=global_settings.debug)
+    return create_async_engine(postgres_settings.connection_string, echo=global_settings.debug)
+
+
+async def get_session():
+    engine = get_engine()
+    session_maker = async_sessionmaker(autocommit=False, bind=engine, expire_on_commit=False)
+    async with session_maker() as session:
+        yield session
+
+
+SessionDependency = Annotated[AsyncSession, Depends(get_session)]
 
 
 POSTGRES_INDEXES_NAMING_CONVENTION = {
