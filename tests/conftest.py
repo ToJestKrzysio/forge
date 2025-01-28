@@ -1,15 +1,12 @@
-from asyncio import get_event_loop_policy, current_task
 from typing import AsyncGenerator
-from unittest.mock import patch
 
 import pytest
 import pytest_asyncio
 from _pytest.monkeypatch import MonkeyPatch
 from async_asgi_testclient import TestClient
 from httpx import AsyncClient, ASGITransport
-from sqlalchemy.ext.asyncio import async_scoped_session, AsyncSession, async_sessionmaker
 
-from src.common.database import get_engine, Base
+from src.common.database import get_engine, Base, get_session
 from src.main import app
 
 
@@ -49,18 +46,13 @@ def engine(monkeypatch_session):
 
 @pytest_asyncio.fixture(scope="function")
 async def session(monkeypatch_session, engine):
-    scoped_session = async_scoped_session(
-        async_sessionmaker(engine, expire_on_commit=False, class_=AsyncSession),
-        scopefunc=current_task,
-    )
-    async with scoped_session() as session:
-        with patch("src.common.database.get_session", return_value=session):
-            yield session
-        await scoped_session.reset()
+    await engine.dispose()
+    async for session in get_session():
+        yield session
 
 
-@pytest.fixture(scope="session")
-def db(engine):
+@pytest.fixture(scope="function")
+def db(engine, event_loop):
     async def create_all():
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.drop_all)
@@ -70,10 +62,7 @@ def db(engine):
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.drop_all)
 
-    loop = get_event_loop_policy().new_event_loop()
-    loop.run_until_complete(create_all())
-
+    event_loop.run_until_complete(create_all())
     yield
-
-    loop.run_until_complete(drop_all())
-    loop.close()
+    event_loop.run_until_complete(drop_all())
+    event_loop.run_until_complete(engine.dispose())
