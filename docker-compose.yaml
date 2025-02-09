@@ -5,10 +5,14 @@ services:
       context: .
     env_file:
       - ./envs/postgres.env
+      - ./envs/api.env
     volumes:
       - ./src:/app/src
     ports:
       - "8000:8000"
+    networks:
+      - api_postgres
+    command: ["uv", "run", "fastapi", "dev", "src/main.py", "--host", "0.0.0.0", "--port", "8000"]
 #    healthcheck:
 #      test: curl --fail http://localhost:8000/ || exit 1
 #      interval: 60s
@@ -26,7 +30,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - api_postgres
 
 
 volumes:
   postgres_data:
+networks:
+  api_postgres:

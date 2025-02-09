@@ -25,21 +25,22 @@ def monkeypatch_session():
     m.undo()
 
 
+# TODO This should be done in some smarter way in the future
 @pytest.fixture(autouse=True, scope="session")
 def remove_postgres_db_connection_data(monkeypatch_session):
-    monkeypatch_session.delenv("POSTGRES_HOST", raising=False)
-    monkeypatch_session.delenv("POSTGRES_PORT", raising=False)
-    monkeypatch_session.delenv("POSTGRES_USER", raising=False)
-    monkeypatch_session.delenv("POSTGRES_PASSWORD", raising=False)
+    # monkeypatch_session.delenv("POSTGRES_HOST", raising=False)
+    # monkeypatch_session.delenv("POSTGRES_PORT", raising=False)
+    # monkeypatch_session.delenv("POSTGRES_USER", raising=False)
+    # monkeypatch_session.delenv("POSTGRES_PASSWORD", raising=False)
     monkeypatch_session.delenv("POSTGRES_DATABASE", raising=False)
 
 
 @pytest.fixture(scope="session")
 def engine(monkeypatch_session):
-    monkeypatch_session.setenv("POSTGRES_HOST", "localhost")
-    monkeypatch_session.setenv("POSTGRES_PORT", "5432")
-    monkeypatch_session.setenv("POSTGRES_USER", "postgres")
-    monkeypatch_session.setenv("POSTGRES_PASSWORD", "Testpass123")
+    # monkeypatch_session.setenv("POSTGRES_HOST", "localhost")
+    # monkeypatch_session.setenv("POSTGRES_PORT", "5432")
+    # monkeypatch_session.setenv("POSTGRES_USER", "postgres")
+    # monkeypatch_session.setenv("POSTGRES_PASSWORD", "Testpass123")
     monkeypatch_session.setenv("POSTGRES_DATABASE", "test")
     return get_engine()
 

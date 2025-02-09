@@ -1,5 +1,7 @@
+import asyncio
 from contextlib import asynccontextmanager
 
+import uvloop
 from fastapi import FastAPI
 
 from src.admin import admin
@@ -9,6 +11,8 @@ from src.liefespan import startup, teardown
 
 from src.health.router import router as health_router
 from src.hero.router import router as hero_router
+
+asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 app_config = {"title": "My awesome app"}
 if not GlobalSettings().environment.docs_available():
