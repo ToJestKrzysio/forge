@@ -30,6 +30,8 @@ Project
 │   │   ├── schemas.py  # pydantic models
 │   │   ├── services.py
 │   │   └── utils.py
+│   ├── admin.py # Imports admin UI's which are to be used
+│   ├── lifespan.py # Functions handling app start up and teardown
 │   └── main.py  # Application entrypoint
 ├── tests/
 │   └── module_1
