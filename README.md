@@ -33,14 +33,7 @@ Project
 │   └── main.py  # Application entrypoint
 ├── tests/
 │   └── module_1
-├── requirements
-│   ├── base.txt
-│   ├── dev.txt
-│   └── prod.txt
-├── templates/
-│   └── index.html
 ├── .env
 ├── .gitignore
-├── logging.ini
 └── alembic.ini
 ```

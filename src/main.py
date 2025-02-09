@@ -5,7 +5,7 @@ from fastapi import FastAPI
 from src.admin import admin
 from src.common.config import GlobalSettings
 from src.common.database import get_engine
-from src.common.utils.validate_subclasses_mixin import ValidateSubclassesMixin
+from src.liefespan import startup, teardown
 
 from src.health.router import router as health_router
 from src.hero.router import router as hero_router
@@ -17,8 +17,9 @@ if not GlobalSettings().environment.docs_available():
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    ValidateSubclassesMixin.validate_subclasses()
+    await startup(_app)
     yield
+    await teardown(_app)
 
 
 app = FastAPI(**app_config, lifespan=lifespan)
