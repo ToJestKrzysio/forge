@@ -46,7 +46,7 @@ For local development using docker
 cp ./envs/api.default.env ./envs/api.env  # Consider updating variables
 cp ./envs/postgres.default.env ./envs/postgress.env # Consider updating variables
 docker compose up --build
-docker exec --it api alembic upgrade head # To migrate DB to latest version
+docker exec --it api uv run alembic upgrade head # To migrate DB to latest version
 ```
 
 #### Docker-less guide coming in the future (but who cares?)
@@ -59,7 +59,10 @@ To clean up the project run following
 rm -rf /src/hero
 rm -rf /src/example
 rm -rf /tests/hero/
+rm /alembic/versions/*
 ```
-Then remove line `import src.hero.admin` from `src/admin.py`
+* remove line `import src.hero.admin` from `src/admin.py`
+* remove line `from src.hero.router import router as hero_router` from `src/main.py`
+
 
 
